@@ -1,7 +1,7 @@
-import game_art
+import assets
 import random
 
-art = [game_art.rock, game_art.paper, game_art.scissors]
+art = [assets.rock, assets.paper, assets.scissors]
 choice = int(input("What do you choose? Type 1 for Rock, 2 for Paper or 3 for Scissors.\n"))
 print(art[choice - 1])
 
