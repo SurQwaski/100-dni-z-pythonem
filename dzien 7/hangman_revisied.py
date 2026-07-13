@@ -6,7 +6,8 @@ ALPHABET = list(string.ascii_lowercase)
 
 chosen_word = random.choice(assets.WORDS)
 placeholder = ""
-for _ in range(len(chosen_word)):
+
+for _ in enumerate(chosen_word):
     placeholder += "_"
 print(placeholder)
 
