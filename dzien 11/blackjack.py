@@ -23,7 +23,7 @@ def calculate_score(current_hand):
                 break
     return current_score
 
-def display_current_hand(current_hand, display_hand, first_card_only):
+def display_current_hand(current_hand, display_hand, first_card_only = False):
     if len(display_hand) == 0:
         for card in current_hand:
             display_hand.append(card[0] + random.choice(card_suits))
@@ -34,10 +34,10 @@ def display_current_hand(current_hand, display_hand, first_card_only):
     else:
         pass
 
-    if not first_card_only:
-        return(" ".join(display_hand))
-    else:
+    if first_card_only == True:
         return(display_hand[0])
+    else:
+        return(" ".join(display_hand))
 
 def blackjack():
     print(BLACKJACK_LOGO)
@@ -52,36 +52,42 @@ def blackjack():
     deal_card(hand=dealer_hand, times=2)
     deal_card(hand=player_hand, times=2)
 
+    current_player_score = calculate_score(player_hand)
+    current_dealer_score = calculate_score(dealer_hand)
+
     while not game_over:
-        print(f"Your cards: {display_current_hand(current_hand=player_hand, display_hand=player_display, first_card_only=False)}")
-        print(f"Current score: {calculate_score(player_hand)}")
+        print(f"Your cards: {display_current_hand(current_hand=player_hand, display_hand=player_display)}")
+        print(f"Current score: {current_player_score}")
         print(f"Computer's first card: {display_current_hand(current_hand=dealer_hand,display_hand=dealer_display, first_card_only=True)}")
 
         decision = input("Type 'h' to hit, 's' to stand. ").lower()
 
         if decision == "h":
             deal_card(hand=player_hand, times=1)
-            if calculate_score(player_hand) > 21:
+            current_player_score = calculate_score(player_hand)
+            if current_player_score > 21:
                 print("Bust!")
-                print(f"Computer's hand was: {display_current_hand(current_hand=dealer_hand, display_hand=dealer_display, first_card_only=False)}")
+                print(f"Computer's hand was: {display_current_hand(current_hand=dealer_hand, display_hand=dealer_display)}")
                 game_over = True
         elif decision == "s":
             game_over = True
             dealers_turn = True
             while dealers_turn:
-                if calculate_score(dealer_hand) < 17:
+                if current_dealer_score < 17:
                     deal_card(hand=dealer_hand, times=1)
+                    current_dealer_score = calculate_score(dealer_hand)
                 else:
-                    if calculate_score(dealer_hand) > 21:
-                        print(f"Dealer Busted! Dealer's final hand: {display_current_hand(current_hand=dealer_hand,display_hand=dealer_display,first_card_only=False)}")
-                    elif calculate_score(dealer_hand) > calculate_score(player_hand):
-                        print(f"You lose! Dealer's final hand: {display_current_hand(current_hand=dealer_hand,display_hand=dealer_display,first_card_only=False)}")
-                    elif calculate_score(dealer_hand) == calculate_score(player_hand):
-                        print(f"Draw! Dealer's final hand: {display_current_hand(current_hand=dealer_hand,display_hand=dealer_display,first_card_only=False)}")
+                    final_dealer_hand = display_current_hand(dealer_hand,dealer_display)
+                    if current_dealer_score > 21:
+                        print(f"Dealer Busted! Dealer's final hand: {final_dealer_hand}")
+                    elif current_dealer_score > current_player_score:
+                        print(f"You lose! Dealer's final hand: {final_dealer_hand}")
+                    elif current_dealer_score == current_player_score:
+                        print(f"Draw! Dealer's final hand: {final_dealer_hand}")
                     else:
-                        print(f"You win! Dealer's final hand: {display_current_hand(current_hand=dealer_hand,display_hand=dealer_display,first_card_only=False)}")
+                        print(f"You win! Dealer's final hand: {final_dealer_hand}")
                     dealers_turn = False
-            print(f"Dealer's final score was: {calculate_score(dealer_hand)}")
+            print(f"Dealer's final score was: {current_dealer_score}")
         else:
             print("Invalid command. Try again.")
 
