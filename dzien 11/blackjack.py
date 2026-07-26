@@ -91,4 +91,11 @@ def blackjack():
         else:
             print("Invalid command. Try again.")
 
-blackjack()
+
+should_continue = True
+while should_continue:
+    blackjack()
+    decision = input("Type 'r' if you want to play again. ").lower()
+    if decision != "r":
+        should_continue = False
+        print("Goodbye")
