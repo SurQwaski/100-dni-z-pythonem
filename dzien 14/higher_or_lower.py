@@ -19,32 +19,22 @@ def fetch_valid_input():
         else:
             print("Incorrect input. Please try again. ")
 
-def collect_valid_subjects():
+def get_distinct_subject(subject_a):
+    """Fetches a different random subject from the one provided."""
+    new_subject = fetch_subject(data)
+    while new_subject["name"] == subject_a["name"]:
+        new_subject = fetch_subject(data)
+    return new_subject
+
+def fetch_valid_subjects(do_swap = False, subject_b = None):
     """Fetches two subjects and ensures that they aren't the same."""
-    subject_a = fetch_subject(data)
-    subject_b = fetch_subject(data)
+    if do_swap and subject_b is not None:
+        subject_a = subject_b
+        subject_b = get_distinct_subject(subject_a)
+    else:
+        subject_a = fetch_subject(data)
+        subject_b = get_distinct_subject(subject_a)
 
-    same_subjects = subject_a["name"] == subject_b["name"]
-
-    while same_subjects:
-        subject_b = fetch_subject(data)
-        if subject_a["name"] != subject_b["name"]:
-            same_subjects = False
-
-    return subject_a, subject_b
-
-def swap_and_prepare_next(subject_a, subject_b):
-    "Swaps account A with account B and fetches another for the game to continue."
-    subject_a = subject_b
-    subject_b = fetch_subject(data)
-
-    same_subjects = subject_a["name"] == subject_b["name"]
-    
-    while same_subjects:
-        subject_b = fetch_subject(data)
-        if subject_a["name"] != subject_b["name"]:
-            same_subjects = False   
-    
     return subject_a, subject_b
 
 def compare_followers(subject_a, subject_b):
@@ -75,7 +65,7 @@ def higher_or_lower():
     print(GAME_MESSAGE)
 
     game_over = False
-    account_a, account_b = collect_valid_subjects()
+    account_a, account_b = fetch_valid_subjects()
     answer = compare_followers(account_a,account_b)
     score = 0
 
@@ -91,7 +81,7 @@ def higher_or_lower():
         if res == "pass":
             score += 1
             print(f"You pass! Current score: {score}")
-            account_a, account_b = swap_and_prepare_next(subject_a=account_a, subject_b=account_b)
+            account_a, account_b = fetch_valid_subjects(do_swap=True,subject_b=account_b)
             answer = compare_followers(account_a,account_b)
         else:
             game_over = True
