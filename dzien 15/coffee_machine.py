@@ -76,32 +76,32 @@ def process_coins():
 
     return total
 
-def assess_transaction(total, drink):
+def assess_transaction(received_money, drink):
     price = MENU[drink]["cost"]
     is_enough = True
     change = 0
     
-    if total < price:
+    if received_money < price:
         is_enough = False
         return is_enough, change
     else:
-        change = total - price
+        change = received_money - price
         return is_enough, change
 
 def conduct_transaction(drink):
-    total = process_coins()
-    is_enough, change = assess_transaction(total,drink)
+    received_money = process_coins()
+    is_enough, change = assess_transaction(received_money,drink)
 
     if not is_enough:
         print("Sorry, that's not enough money. Money refunded. ")
         return False
     else:
         if change > 0:
-            total -= change
+            received_money -= change
             print(f"Here is {round(change,2)}$ change.")
-            return total
+            return received_money
         else:
-            return total
+            return received_money
 
 def update_supply(recipe,total):
     for ingredient in recipe:
