@@ -41,8 +41,8 @@ def spirograph(steps):
 
 def draw_painting(size):
       color_list = extract_color_from_image_to_list('100-dni-z-pythonem/dzien 18/image.jpg')
-      start_x = -500/2
-      start_y = -500/2
+      start_x = -screen.window_width()/2
+      start_y = -screen.window_height()/2
       t.colormode(255)
 
       for _ in range(size):
@@ -69,6 +69,6 @@ def random_walk(steps,distance):
 
 tim = t.Turtle()
 screen = t.Screen()
-screen.screensize(500,500)
+screen.setup(height=500,width=500)
 draw_painting(10)
 screen.exitonclick()
