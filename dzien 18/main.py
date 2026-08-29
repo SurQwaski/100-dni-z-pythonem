@@ -14,7 +14,7 @@ def random_color():
 
 def extract_color_from_image_to_list(file_path):
       color_list = []
-      colors = colorgram.extract(file_path,6)
+      colors = colorgram.extract(file_path,10)
       for color in colors:
             red, green, blue = color.rgb.r, color.rgb.g, color.rgb.b
             clean_tuple = (red,green,blue)
@@ -23,6 +23,7 @@ def extract_color_from_image_to_list(file_path):
 
 
 def draw_shape(sides_list,size):
+      t.colormode(255)
       for sides in sides_list:
             degrees_of_turn = 360/sides
             tim.pencolor(random_color())
@@ -70,5 +71,6 @@ def random_walk(steps,distance):
 tim = t.Turtle()
 screen = t.Screen()
 screen.setup(height=500,width=500)
-draw_painting(10)
+# draw_painting(10)
+draw_shape(sides_list=[3,4,5,6,7,8],size=200)
 screen.exitonclick()
