@@ -27,6 +27,7 @@ while game_on:
         game_on = False
         ball.dissapear()
         scoreboard.show_winner()
+        break
     else:
         screen.update()
         ball.move()
