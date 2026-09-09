@@ -37,6 +37,14 @@ class Snake():
         new_segment = self.create_segment(self.segment_list[-1].position())
         self.segment_list.append(new_segment)
 
+    def reset(self):
+        for segment in self.segment_list:
+            segment.hideturtle()
+            
+        self.segment_list.clear()
+        self.create_snake()
+        self.head = self.segment_list[0]
+
     def move(self):
         self.update_segments()
         self.head.forward(20)
